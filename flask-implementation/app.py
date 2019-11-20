@@ -15,7 +15,7 @@ def index():
     return render_template('login.html')
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
@@ -30,6 +30,20 @@ def login():
     print(username)
     print(password)
     return render_template('login.html')
+
+@app.route('/signup', methods=['POST', 'GET'])
+def signup():
+    email = request.form.get('email')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if username in knownUsers:
+        print("username already taken!")
+        return render_template('signup.html')
+    else:
+        knownUsers[username] = password
+    print(knownUsers)
+    return render_template('signup.html')
+
 
 if __name__ == '__main__':
     app.run()
