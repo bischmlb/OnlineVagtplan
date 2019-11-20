@@ -30,7 +30,7 @@ def login():
 
     print(username)
     print(password)
-    return render_template('login.html')
+    return render_template('userScreen.html')
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
