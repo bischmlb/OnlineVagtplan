@@ -5,6 +5,10 @@ def listUsers(self):
     for x in User.userList:
         print(x.name,x.accountID)
 
+def listGroups(self):
+    for x in Group.groupList:
+        print("group ", x.groupID)
+
 class User:
     Type = "Volenteer"
     def __init__(self,name,email,phone):
@@ -53,10 +57,6 @@ class Group:
         self.members.append(User.accountID)
 
 
-    @classmethod
-    def listGroups(self):
-        for x in Group.groupList:
-            print("group ", x.groupID)
 
     def listMembers(self):
         for x in self.members:
