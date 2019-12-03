@@ -1,4 +1,10 @@
 import random
+
+userList = []
+def listUsers(self):
+    for x in User.userList:
+        print(x.name,x.accountID)
+
 class User:
     Type = "Volenteer"
     def __init__(self,name,email,phone):
@@ -8,8 +14,6 @@ class User:
         self.nrShift = 0
         self.accountID = self.createID()
         self.userList.append(self)
-
-    userList = []
 
 
     def __repr__(self):
@@ -27,13 +31,6 @@ class User:
         for x in User.userList:
             if x.accountID == id:
                 return 0
-
-
-
-    @classmethod
-    def listUsers(self):
-        for x in User.userList:
-            print(x.name,x.accountID)
 
 
 
@@ -71,14 +68,3 @@ class Schedule:
     def __init__(self,groupNr,Month):
         self.groupnr = groupNr
         self.month = Month
-
-user_1 = User("John","John@shitmeister.com","23 24 25 26")
-user_2 = User("Carl","Carl@shitmeister.com","24 23 26 27")
-group_1 = Group(1)
-group_2 = Group(2)
-group_1.add_user(user_1)
-group_1.add_user(user_2)
-group_1.listMembers()
-
-
-

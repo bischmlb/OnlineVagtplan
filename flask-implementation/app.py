@@ -25,8 +25,10 @@ def login():
             print("login successful!!!")
         else:
             print("password wrong")
+            return render_template('login.html')
     else:
         print("user not recognized")
+        return render_template('login.html')
 
     print(username)
     print(password)
@@ -48,3 +50,13 @@ def signup():
 
 if __name__ == '__main__':
     app.run()
+    user_1 = User("John","John@shitmeister.com","23 24 25 26")
+    user_2 = User("Carl","Carl@shitmeister.com","24 23 26 27")
+    group_1 = Group(1)
+    group_2 = Group(2)
+    group_1.add_user(user_1)
+    group_1.add_user(user_2)
+    group_1.listMembers()
+
+
+    print(fu.listUsers())
