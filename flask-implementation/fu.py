@@ -1,10 +1,20 @@
 import random
 
 userList = []
+<<<<<<< HEAD
 
 def listUsers():
     for x in userList:
         print(x.accountID)
+=======
+def listUsers(self):
+    for x in User.userList:
+        print(x.name,x.accountID)
+groupList = []
+def listGroups(self):
+    for x in Group.groupList:
+        print("group ", x.groupID)
+>>>>>>> 52887f260c9a7b730092ac2853ef801bf955c541
 
 class User:
     Type = "Volenteer"
@@ -40,11 +50,17 @@ class Group:
 
     def __init__(self,groupID):
         self.groupID = groupID
+        self.checkID()
+        self.groupList.append(self)
         self.members = []
         self.supers = []
         self.activesuper = "None"
-        self.groupList.append(self)
-    groupList = []
+
+
+    def checkID(self):
+        for x in groupList:
+            if self.groupID==x.groupID:
+                raise Exception("this ID is already chosen, please choose another ID for the group")
 
     def __repr__(self):
         return "<Group info: members:%s - supers:%s - schedule:%s, activesuper is:%s>" % (
@@ -54,15 +70,11 @@ class Group:
         self.members.append(User.accountID)
 
 
-    @classmethod
-    def listGroups(self):
-        for x in Group.groupList:
-            print("group ", x.groupID)
-
 
     def listMembers(self):
         for x in self.members:
-            print(x)
+            print(x, "is a member of",self.groupID)
+
 
 class Schedule:
 
