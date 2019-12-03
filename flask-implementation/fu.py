@@ -58,10 +58,10 @@ class Group:
         for x in Group.groupList:
             print("group ", x.groupID)
 
-
     def listMembers(self):
         for x in self.members:
-            print(x)
+            print(x, "is a member of",self.groupID)
+
 
 class Schedule:
 
