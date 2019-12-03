@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request
 app = Flask(__name__)
-from fu import *
+import fu
 import os
 
 knownUsers = {
-"troels": "have",
+"troels@live.dk": "have",
 "boller": "kohberg"
 }
 
@@ -18,11 +18,13 @@ def index():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    fu.listUsers()
     username = request.form.get('username')
     password = request.form.get('password')
     if username in knownUsers:
         if knownUsers[username] == password:
             print("login successful!!!")
+            return render_template('userScreen.html')
         else:
             print("password wrong")
             return render_template('login.html')
@@ -32,31 +34,31 @@ def login():
 
     print(username)
     print(password)
-    return render_template('userScreen.html')
+    return render_template('login.html')
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     email = request.form.get('email')
-    username = request.form.get('username')
+    name = request.form.get('name')
     password = request.form.get('password')
-    if username in knownUsers:
-        print("username already taken!")
+    passwordRetype = request.form.get('passRetype')
+    tlf = request.form.get('phoneNumber')
+    user = fu.User(name, email, tlf)
+    if email in knownUsers:
+        print("email already registered!")
         return render_template('signup.html')
     else:
-        knownUsers[username] = password
+        if password == passwordRetype:
+            knownUsers[email] = password # store new user
+            return render_template('login.html')
+        else:
+            print("passwords not identical")
     print(knownUsers)
     return render_template('signup.html')
 
 
+
 if __name__ == '__main__':
+    troels = fu.User("Troels","troels@live.dk","23 24 25 26")
+    fu.listUsers()
     app.run()
-    user_1 = User("John","John@shitmeister.com","23 24 25 26")
-    user_2 = User("Carl","Carl@shitmeister.com","24 23 26 27")
-    group_1 = Group(1)
-    group_2 = Group(2)
-    group_1.add_user(user_1)
-    group_1.add_user(user_2)
-    group_1.listMembers()
-
-
-    print(fu.listUsers())

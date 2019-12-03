@@ -1,9 +1,10 @@
 import random
 
 userList = []
-def listUsers(self):
-    for x in User.userList:
-        print(x.name,x.accountID)
+
+def listUsers():
+    for x in userList:
+        print(x.accountID)
 
 class User:
     Type = "Volenteer"
@@ -13,14 +14,14 @@ class User:
         self.phone = phone
         self.nrShift = 0
         self.accountID = self.createID()
-        self.userList.append(self)
+        userList.append(self)
 
 
     def __repr__(self):
         return "<User info: name:%s - email:%s - groupID:%s, number:%s, total nr of shifts:%s, his personal id is: %s>" % (self.name, self.email,self.groupID,self.phone,self.nrShift,self.accountID)
 
     def createID(self):
-        id = "0"+self.name+str(random.randint(2,2000))
+        id = "0-"+str(random.randint(2,2000))+"-"+str(self.name)
         if self.checkUnique(id) != 0:
             return id
         else:
@@ -28,7 +29,7 @@ class User:
 
 
     def checkUnique(self,id):
-        for x in User.userList:
+        for x in userList:
             if x.accountID == id:
                 return 0
 
