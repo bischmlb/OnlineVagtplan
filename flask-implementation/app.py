@@ -16,49 +16,52 @@ def index():
     return render_template('login.html')
 
 
+#Login page
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    fu.listUsers()
+    valueLogIn = request.form.get('submit')
     username = request.form.get('username')
     password = request.form.get('password')
-    if username in knownUsers:
-        if knownUsers[username] == password:
-            print("login successful!!!")
-            return render_template('userScreen.html')
+    if valueLogIn == "Log In": ## prøv kun at log ind hvis vi trykker log in
+        if username in knownUsers:
+            if knownUsers[username] == password:
+                print("login successful!!!")
+                return render_template('userScreen.html')
+            else:
+                print("password wrong")
+                return render_template('login.html')
         else:
-            print("password wrong")
+            print("user not recognized")
             return render_template('login.html')
-    else:
-        print("user not recognized")
-        return render_template('login.html')
 
-    print(username)
-    print(password)
     return render_template('login.html')
 
+#Sign up page
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
+    valueSignUp = request.form.get('submit')
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
     passwordRetype = request.form.get('passRetype')
     tlf = request.form.get('phoneNumber')
-    user = fu.User(name, email, tlf)
-    if email in knownUsers:
-        print("email already registered!")
-        return render_template('signup.html')
-    else:
-        if password == passwordRetype:
-            knownUsers[email] = password # store new user
-            return render_template('login.html')
+    if valueSignUp == "Sign Up": #lav kun ny bruger hvis vi trykker "signup"
+        if email in knownUsers:
+            print("email already registered!")
+            return render_template('signup.html')
         else:
-            print("passwords not identical")
-    print(knownUsers)
+            if password == passwordRetype and password is not None and email is not None:
+                knownUsers[email] = password # store new user
+                user = fu.User(name, email, tlf)
+                fu.listUsers()
+                return render_template('login.html')
+            else:
+                print("passwords not identical")
+
     return render_template('signup.html')
 
 
 
 if __name__ == '__main__':
     troels = fu.User("Troels","troels@live.dk","23 24 25 26")
-    fu.listUsers()
     app.run()
