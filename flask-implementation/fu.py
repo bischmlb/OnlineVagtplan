@@ -4,7 +4,7 @@ userList = []
 def listUsers(self):
     for x in User.userList:
         print(x.name,x.accountID)
-
+groupList = []
 def listGroups(self):
     for x in Group.groupList:
         print("group ", x.groupID)
@@ -43,11 +43,17 @@ class Group:
 
     def __init__(self,groupID):
         self.groupID = groupID
+        self.checkID()
+        self.groupList.append(self)
         self.members = []
         self.supers = []
         self.activesuper = "None"
-        self.groupList.append(self)
-    groupList = []
+
+
+    def checkID(self):
+        for x in groupList:
+            if self.groupID==x.groupID:
+                raise Exception("this ID is already chosen, please choose another ID for the group")
 
     def __repr__(self):
         return "<Group info: members:%s - supers:%s - schedule:%s, activesuper is:%s>" % (
