@@ -19,20 +19,29 @@ def index():
 #Login page
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    found = False
     valueLogIn = request.form.get('submit')
     username = request.form.get('username')
     password = request.form.get('password')
     if valueLogIn == "Log In": ## prøv kun at log ind hvis vi trykker log in
-        if username in knownUsers:
-            if knownUsers[username] == password:
-                print("login successful!!!")
+        file = open('users.txt', 'r+')
+        for line in file:
+            if username == line.split(',')[1] and password == line.split(',')[2]:
+                print("login successful")
+                found == True
                 return render_template('userScreen.html')
-            else:
-                print("password wrong")
-                return render_template('login.html')
-        else:
-            print("user not recognized")
+
+        # if username in knownUsers:
+        #     if knownUsers[username] == password:
+        #         print("login successful!!!")
+        #         return render_template('userScreen.html')
+            # else:
+            #     print("password wrong")
+            #     return render_template('login.html')
+        if found == False:
+            print("user not found")
             return render_template('login.html')
+
 
     return render_template('login.html')
 
@@ -46,18 +55,21 @@ def signup():
     passwordRetype = request.form.get('passRetype')
     tlf = request.form.get('phoneNumber')
     if valueSignUp == "Sign Up": #lav kun ny bruger hvis vi trykker "signup"
-        if email in knownUsers:
-            print("email already registered!")
-            return render_template('signup.html')
-        else:
-            if password == passwordRetype and password is not None and email is not None:
-                knownUsers[email] = password # store new user
-                user = fu.User(name, email, tlf)
-                fu.listUsers()
-                return render_template('login.html')
-            else:
-                print("passwords not identical")
+        file = open("users.txt", "r+")
+        for line in file:
+            if email == (line.split(',')[1]):
+                print("email already registered!")
+                file.close()
+                return render_template('signup.html')
+        file.close()
 
+        if password == passwordRetype and password is not None and email is not None:
+            knownUsers[email] = password # store new user
+            user = fu.User(name, email, tlf)
+            fu.storeAccount(user, password, "users.txt")
+            return render_template('login.html')
+        else:
+            print("passwords not identical")
     return render_template('signup.html')
 
 @app.route('/forgot', methods=['POST', 'GET'])
@@ -65,9 +77,30 @@ def signup():
 def forgot():
     return render_template('forgot.html')
 
+def UI():
+    print("1: Print all users")
+    print("2: Print groups")
+    print("3: List members of group")
+    global g
+    g = input("Enter value: ")
 
+def getUsers():
+    if g == 1:
+        listUsers()
+    else:
+        return UI()
 
+def getGroups():
+    if g == 2:
+        listGroups()
+    else:
+        return UI()
 
+def getGroupMembers(group):
+    if g == 3:
+        group.listGroups()
+    else:
+        return UI()
 
 if __name__ == '__main__':
     troels = fu.User("Troels","troels@live.dk","23 24 25 26")

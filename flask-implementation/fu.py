@@ -12,6 +12,12 @@ def listGroups(self):
     for x in Group.groupList:
         print("group ", x.groupID)
 
+
+def storeAccount(account, password, file):
+    f = open(file, "a+")
+    f.write(account.name + "," + account.email + "," + password + "," + str(account.phone) + "," + str(account.nrShift) + str(account.accountID) + "\n")
+    f.close()
+
 class User:
     Type = "Volenteer"
     def __init__(self,name,email,phone):
