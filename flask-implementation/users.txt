@@ -1,2 +1,4 @@
 mathias,mathias@live.dk,123,26303534,00-672-mathias
 troels,troels@live.dk,have,12345678,00-1766-troels
+group: Kohberg,Lars,bob,
+group: Boller,Børge,
