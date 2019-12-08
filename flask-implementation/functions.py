@@ -29,7 +29,8 @@ def addUserToGroup(name, group):
     file.seek(0)
     for line in file:
         if ('group' not in line):
-            names.append(line.split(',')[0] + ' - ' + line.split(',')[1])
+            print()
+            names.append(line.split(',')[0])
     for line in read:
         if (group in line):
             data = line[0:-1]
