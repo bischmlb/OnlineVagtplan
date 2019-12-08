@@ -31,13 +31,6 @@ def login():
                 found == True
                 return render_template('userScreen.html')
 
-        # if username in knownUsers:
-        #     if knownUsers[username] == password:
-        #         print("login successful!!!")
-        #         return render_template('userScreen.html')
-            # else:
-            #     print("password wrong")
-            #     return render_template('login.html')
         if found == False:
             print("user not found")
             return render_template('login.html')
@@ -77,31 +70,7 @@ def signup():
 def forgot():
     return render_template('forgot.html')
 
-def UI():
-    print("1: Print all users")
-    print("2: Print groups")
-    print("3: List members of group")
-    global g
-    g = input("Enter value: ")
 
-def getUsers():
-    if g == 1:
-        listUsers()
-    else:
-        return UI()
-
-def getGroups():
-    if g == 2:
-        listGroups()
-    else:
-        return UI()
-
-def getGroupMembers(group):
-    if g == 3:
-        group.listGroups()
-    else:
-        return UI()
 
 if __name__ == '__main__':
-    troels = fu.User("Troels","troels@live.dk","23 24 25 26")
     app.run()

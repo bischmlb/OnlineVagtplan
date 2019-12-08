@@ -23,9 +23,13 @@ def addGroup(name):
 def addUserToGroup(name, group):
     data = ''
     found = False
+    names = []
     file = open('users.txt', "r+")
     read = file.readlines()
     file.seek(0)
+    for line in file:
+        if ('group' not in line):
+            names.append(line.split(',')[0] + ' - ' + line.split(',')[1])
     for line in read:
         if (group in line):
             data = line[0:-1]
@@ -34,11 +38,11 @@ def addUserToGroup(name, group):
             file.write(line)
     file.truncate()
     if found:
-        if name not in data:
+        if name not in data and name in names:
             print('\n*** Adding member \'' + name + '\' to group \'' + group + '\'***')
             file.write(data + name + ',\n')
         else:
-            print('\nUser \'' + name + '\' already in group \'' + group + '\'')
+            print('\nUser \'' + name + '\' already in group \'' + group +  '\' or does not exist. \'')
             file.write(data + '\n')
     else:
         print('\nGroup \'' + group + '\' not found')
@@ -61,18 +65,54 @@ def listGroups():
             print(line.split(',')[0].split(':')[1])
     file.close()
 
+def UI():
+    print("\n")
+    print("1: Print all users")
+    print("2: Print groups")
+    print("3: List members of group")
+    print("4: Create new group")
+    print("5: Add user to group")
+    print("---------------------------")
+    print("6: Show menu")
+    print("0: Quit")
+    print("\n")
+
+if __name__ == "__main__":
+    choice = ''
+    UI()
+    while choice != '0':
+        choice = input("What would you like to do? ")
+        if choice == '1':
+            listUsers()
+        elif choice == '2':
+            listGroups()
+        elif choice == '3':
+            groupName = input("Which group?: ")
+            listGroupMembers(groupName)
+        elif choice == '4':
+            groupName = input("New group name: ")
+            addGroup(groupName)
+        elif choice == '5':
+            userName = input("Which user?: ")
+            groupName = input("Which group?: ")
+            addUserToGroup(userName, groupName)
+        elif choice == '6':
+            UI()
+        else:
+            print("Input not recognized, please try again.")
+            UI()
 
 
-
-listUsers()
-addGroup('Kohberg')
-addUserToGroup('bob', 'Kohberg')
-listGroupMembers('Kohberg')
-listGroups()
-addGroup('Boller')
-listGroups()
-addUserToGroup('Børge', 'Boller')
-listGroupMembers('Boller')
+#
+#listUsers()
+#addGroup('Kohberg')
+#addUserToGroup('bob', 'Kohberg')
+#listGroupMembers('Kohberg')
+#listGroups()
+#addGroup('Boller')
+#listGroups()
+#addUserToGroup('Børge', 'Boller')
+#listGroupMembers('Boller')
 
 # data = ''
 # file = open('testfile.txt', "r+")
