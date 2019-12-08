@@ -1,4 +1,5 @@
 import random
+import unittest
 
 userList = []
 
@@ -19,7 +20,6 @@ def storeAccount(account, password, file):
     f.close()
 
 def stringerror(string, attribute):
-    print("test")
     if not string:
         raise ValueError("Invalid input " + attribute + " must not be an empty string")
     if not type(string) is str:
@@ -28,10 +28,10 @@ def stringerror(string, attribute):
 def phoneerror(string):
     if not string:
         raise ValueError("Invalid input phone must not be an empty string")
+    if len(string) != 8:
+        raise ValueError("valid phone number must be 8 digits long")
     if string.isdigit() == False:
         raise ValueError("input given for phone must be an Integer")
-    if len(string) > 8:
-        raise ValueError("valid phone number must be 8 digits long")
 
 class User:
     Type = "Volenteer"
@@ -63,6 +63,8 @@ class User:
         for x in userList:
             if x.accountID == id:
                 return 0
+        else:
+            pass
 
 
 def grouperror(string):
@@ -113,14 +115,33 @@ class Schedule:
         self.groupnr = groupNr
         self.month = Month
 
-John = User("john","john@shit.com","22334455")
-John2 = User("john2","john@shit.com","22334455")
-Group1 = Group(1)
+class TestUser(unittest.TestCase):
 
-Group1.add_user(John)
-Group1.add_user(John2)
-Group1.add_user(John)
-print(Group1.members)
-if Group1.members[0] == John.accountID:
-    print("ye")
+    def setUp(self):
+        self.user1 = User("John","john@shit.com","22334455")
+        self.user2 = User("Carl", "carl@shit.com", "55443322")
+    def test_email(self):
+        self.assertEqual(self.user1.email,"john@shit.com")
+        self.assertEqual(self.user2.email, "carl@shit.com")
+    def test_name(self):
+        self.assertEqual(self.user1.name, "John")
+        self.assertEqual(self.user2.name,"Carl")
+    def test_phone(self):
+        self.assertEqual(self.user1.phone,"22334455")
+        self.assertEqual(self.user2.phone, "55443322")
+    def test_UserID(self):
+        self.assertEqual(self.user1.checkUnique(self.user1.accountID),0)
+        self.assertEqual(self.user1.checkUnique(self.user2.accountID), 0)
+    def test_stringTest(self):
+        self.assertRaises(ValueError, stringerror, "", "user")
+        self.assertRaises(ValueError, stringerror, 2, "user")
+        self.assertRaises(ValueError, stringerror, ["dum"], "user")
 
+    def test_phoneTest(self):
+        self.assertRaises(ValueError,phoneerror,"")
+        self.assertRaises(ValueError, phoneerror, "2233445b")
+        self.assertRaises(ValueError, phoneerror, "2233445")
+        self.assertRaises(ValueError, phoneerror, "223344555")
+
+if __name__ == '__main__':
+   unittest.main()
