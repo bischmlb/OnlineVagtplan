@@ -14,10 +14,10 @@ def listGroups(self):
         print("group ", x.groupID)
 
 
-def storeAccount(account, password, file):
-    f = open(file, "a+")
+def storeAccount(account, password, file): #function to store user in database
+    f = open(file, "a+")                   #open database, and append given input
     f.write(account.name + "," + account.email + "," + password + "," + str(account.phone) + "," + str(account.nrShift) + str(account.accountID) + "\n")
-    f.close()
+    f.close()                              #close
 
 def stringerror(string, attribute):
     if not string:
