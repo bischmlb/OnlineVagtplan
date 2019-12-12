@@ -36,9 +36,10 @@ def phoneerror(string):
 class User:
     Type = "Volenteer"
     def __init__(self,name,email,phone):
-
         stringerror(name,"name")
         stringerror(email, "email")
+        if isinstance(phone, int) == True:
+            phone = str(phone)
         phoneerror(phone)
         self.name = name
         self.email = email
@@ -142,6 +143,9 @@ class TestUser(unittest.TestCase):
         self.assertRaises(ValueError, phoneerror, "2233445b")
         self.assertRaises(ValueError, phoneerror, "2233445")
         self.assertRaises(ValueError, phoneerror, "223344555")
+        self.assertRaises(ValueError, phoneerror, 223344555)
 
 if __name__ == '__main__':
-   unittest.main()
+    John = User("john","john",22222222)
+    unittest.main()
+
